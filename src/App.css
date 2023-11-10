@@ -1,0 +1,150 @@
+@font-face {
+    font-family: "M PLUS 1P";
+    src: url("assets/MPLUS1p-Regular.ttf")
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "M PLUS 1P", sans-serif;
+    font-weight: 500;
+    color: white;
+}
+
+#root {
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    grid-template-columns: 0.5fr 3fr 13fr;
+    grid-template-rows: 65px 1fr 65px;
+    grid-gap: 1px;
+    background-color: black;
+}
+
+#menu, #sidebar, #chat {
+    display: block;
+}
+
+#menu {
+    background-color: var(--sidebar);
+    grid-area: 1 / 1 / 4 / 2;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    padding-top: 8px;
+}
+
+#menu svg:nth-child(6) {
+    transform: scale(138%);
+}
+
+#menu svg {
+    margin: 8px 0px;
+}
+
+#sidebar {
+    background-color: var(--chat);
+    grid-area: 2 / 2 / 3 / 3;
+}
+
+#chat {
+    grid-area: 2 / 3 / 3 / 3;
+    background-color: var(--select);
+}
+
+#sidebarChannelName, #channelName {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#channelName {
+    justify-content: flex-start;
+    background-color: var(--background);
+}
+
+#channelName svg {
+    margin-left: 15px;
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+}
+
+#sidebarChannelName h1, #channelName h1 {
+    font-size: 17px;
+    font-weight: 500;
+    margin-left: 12px;
+    letter-spacing: 0.8px;
+}
+
+#sidebarChannelName svg {
+    margin-right: 25px;
+}
+
+#sidebarChannelName {
+    background-color: var(--chat);
+}
+
+#channelName h1 {
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar {
+    display: flex;
+    flex-flow: column wrap;
+    padding: 10px 0px;
+}
+
+#sidebar #textChannels {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+}
+
+.channel {
+    display: flex;
+    align-items: center;
+    width: 95%;
+    height: 90%;
+    border-radius: 3px;
+    transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.channel svg {
+    margin-left: 15px;
+}
+
+.channel.selected {
+    background-color: #51496B;
+}
+
+.channel h1 {
+    font-size: 14px;
+    margin-left: 10px;
+    font-weight: 300;
+}
+
+#textChannels > div:not(.channel) > h1 {
+    font-size: 15px;
+    font-weight: 600;
+    align-self: flex-start;
+    margin-left: 10px;
+}
+
+#textChannels div:not(.channel) {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+}
+
+#textChannels div svg {
+    margin-left: 10px;
+}
