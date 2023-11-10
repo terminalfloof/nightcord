@@ -1,3 +1,5 @@
+import {Timestamp} from "firebase/firestore";
+
 export type Server = {
     channels: Channel[];
     name: string;
@@ -5,6 +7,7 @@ export type Server = {
 }
 
 export type Channel = {
+    id: string;
     name: string;
     users: User[];
     type: "text"|"voice";
@@ -14,7 +17,7 @@ export type Channel = {
 export type Message = {
     content: string;
     author: User;
-    timestamp: Date;
+    timestamp: Timestamp;
 }
 
 export type User = {

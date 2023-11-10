@@ -4,11 +4,17 @@ import Chat from "./components/Chat.tsx";
 import Sidebar from "./components/Sidebar.tsx";
 import {ServerContext} from "./main.tsx";
 import getServer from "./hooks/getServer.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function App() {
     const [channelIndex, setChannelIndex] = useState(0);
     const [server] = getServer();
+
+    useEffect(() => {
+        if (server && channelIndex > server?.channels.length) {
+            setChannelIndex(server.channels.length);
+        }
+    }, [channelIndex]);
 
     const channelIndexProps = {channelIndex, setChannelIndex}
     return (
@@ -32,7 +38,7 @@ function App() {
                 {server.channels[channelIndex].name}
             </div>
             <Sidebar {...channelIndexProps} />
-            <Chat/>
+            <Chat channelIndex={channelIndex}/>
         </ServerContext.Provider> : <div id={"loading"}>
             <h1>fetching data...</h1>
             <h2>hang on tight...</h2>

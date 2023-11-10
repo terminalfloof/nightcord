@@ -18,7 +18,7 @@ const GetServer = function () {
 
             // subscribe to channels collection
             unsubscribe = onSnapshot(collection(db, `/servers/${id}/channels`), channelSnapshot => {
-                const channels = channelSnapshot.docs.map((doc) => (doc.data() as Channel))
+                const channels = channelSnapshot.docs.map((doc) => ({...doc.data(), id: doc.id} as Channel))
                 console.log(channels);
                 setServer({
                     name: snapshot.docs[0].data().name, id: snapshot.docs[0].id, channels: channels
