@@ -18,9 +18,19 @@ body {
     display: grid;
     height: 100vh;
     width: 100vw;
-    grid-template-columns: 0.5fr 3fr 13fr;
+    grid-template-columns: 0.75fr 3fr 13fr;
     grid-template-rows: 65px 1fr 65px;
     grid-gap: 1px;
+    background-color: black;
+}
+
+#loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
     background-color: black;
 }
 
@@ -42,7 +52,7 @@ body {
 }
 
 #menu svg {
-    margin: 8px 0px;
+    margin: 8px 0;
 }
 
 #sidebar {
@@ -98,7 +108,7 @@ body {
 #sidebar {
     display: flex;
     flex-flow: column wrap;
-    padding: 10px 0px;
+    padding: 10px 0;
 }
 
 #sidebar #textChannels {

@@ -1,13 +1,7 @@
-import React from 'react';
-import {useCollection} from "react-firebase-hooks/firestore";
-import {collection} from "firebase/firestore";
-import {db} from "../firebase.ts";
+import {Channel} from "../types.ts";
 
-const Channel = ({channel, selected, select}) => {
 
-    // load channels
-    [channels, loading, error] = useCollection(collection(db, ""))
-
+const ChannelComponent = ({channel, selected, select}: { channel: Channel, selected: boolean, select: () => void }) => {
     return (
         <div onClick={select} className={selected ? "channel selected" : "channel"}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
@@ -21,4 +15,4 @@ const Channel = ({channel, selected, select}) => {
     );
 };
 
-export default Channel;
+export default ChannelComponent;

@@ -4,19 +4,22 @@ import Chat from "./components/Chat.tsx";
 import Sidebar from "./components/Sidebar.tsx";
 import {ServerContext} from "./main.tsx";
 import getServer from "./hooks/getServer.ts";
-
+import {useState} from "react";
 
 function App() {
-    const [server, status] = getServer();
+    const [channelIndex, setChannelIndex] = useState(0);
+    const [server] = getServer();
 
+    const channelIndexProps = {channelIndex, setChannelIndex}
     return (
     <>
-        <ServerContext.Provider value={server}>
-            {/*<Menu />*/}
+        {server ? <ServerContext.Provider value={server}>
+            <Menu/>
             <div id={"sidebarChannelName"}>
-                <h1>{status ? "loading..." : server?.name}</h1>
+                <h1>{server.name ?? "loading..."}</h1>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8" fill="none">
-                    <path d="M1 1L7 7L13 1" stroke="#DDD6E5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M1 1L7 7L13 1" stroke="#DDD6E5" strokeWidth="2" strokeLinecap="round"
+                          strokeLinejoin="round"/>
                 </svg>
             </div>
             <div id={"channelName"}>
@@ -26,11 +29,14 @@ function App() {
                     <circle cx="12.3958" cy="13.2292" r="1.5625" fill="#DDD6E5"/>
                     <circle cx="19.5833" cy="13.3333" r="1.5625" fill="#DDD6E5"/>
                 </svg>
-                {/*{status ? channel.name : "loading..."}*/}
+                {server.channels[channelIndex].name}
             </div>
-            {/*<Sidebar {...channelProps}  />*/}
-            {/*<Chat {...channelProps} />*/}
-        </ServerContext.Provider>
+            <Sidebar {...channelIndexProps} />
+            <Chat/>
+        </ServerContext.Provider> : <div id={"loading"}>
+            <h1>fetching data...</h1>
+            <h2>hang on tight...</h2>
+        </div>}
     </>
   )
 }
