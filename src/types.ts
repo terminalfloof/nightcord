@@ -25,4 +25,5 @@ export type User = {
     pfp: string;
     cameraOn: boolean;
     micOn: boolean;
+    id: string;
 }

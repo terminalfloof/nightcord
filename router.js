@@ -11,8 +11,7 @@ router.get("/servers", async (req, res) => {
             }
         });
         res.status(200).json(servers).end();
-    }
-    catch (error) {
+    } catch (error) {
         res.status(400).send(error).end();
     }
 })
@@ -24,13 +23,17 @@ router.get("/channels/:channel/messages", async (req, res) => {
                 id: req.params.channel
             },
             include: {
-                messages: true
+                messages: {
+                    include: {
+                        author: true
+                    }
+                }
             }
         })
         res.status(200).json(result).end()
-    }
-    catch (err) {
+    } catch (err) {
         res.status(400).send(err).end();
     }
 })
+
 export default router;

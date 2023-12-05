@@ -6,14 +6,21 @@ import getServer from "./hooks/getServer.ts";
 import {useEffect, useState} from "react";
 import {Server} from "./types.ts";
 import {ServerContext} from './main.tsx';
+import {socket} from "./utils/socket.ts";
+import {Socket} from "socket.io-client";
 
 
 function App() {
     const [channelIndex, setChannelIndex] = useState(0);
-    const [server, setServer] = useState<(Server | null)>(null);
+    const [server, setServer] = useState<(Server & {socket: Socket} | null)>(null);
 
     useEffect(() => {
-        getServer().then(served => setServer(served));
+        getServer().then(served => {
+            if (served) {
+                setServer({...served, socket});
+            }
+            console.log(socket);
+        });
     }, [])
 
     const channelIndexProps = {channelIndex, setChannelIndex}
