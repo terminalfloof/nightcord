@@ -5,7 +5,7 @@ import ChannelComponent from "./Channel.tsx";
 
 const Sidebar = ({setChannelIndex, channelIndex}: {setChannelIndex: React.Dispatch<React.SetStateAction<number>>, channelIndex: number}) => {
     const server = useContext(ServerContext);
-    const channels = server.channels
+    const channels = server?.channels
 
     return (
         <div id={"sidebar"}>
@@ -32,7 +32,7 @@ const Sidebar = ({setChannelIndex, channelIndex}: {setChannelIndex: React.Dispat
                     </svg>
                     <h1>テキストチャット</h1>
                 </div>
-                {channels.filter((channel: Channel) => channel.type == "text").map((channel: Channel, index: number) =>
+                {channels && channels.filter((channel: Channel) => channel.type == "text").map((channel: Channel, index: number) =>
                     <ChannelComponent key={index}
                                       channel={channel}
                                       selected={channels[channelIndex].name == channel.name}

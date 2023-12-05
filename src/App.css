@@ -2,6 +2,7 @@
     font-family: "M PLUS 1P";
     src: url("assets/MPLUS1p-Regular.ttf")
 }
+
 html, body {
     margin: 0;
     padding: 0;
@@ -60,17 +61,6 @@ body {
     grid-area: 2 / 2 / 3 / 3;
 }
 
-#chat {
-    grid-area: 2 / 3 / 4 / 4;
-    background-color: var(--select);
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: flex-end;
-    max-height: 100vh;
-    width: 100%;
-    overflow: scroll;
-}
-
 #sidebarChannelName, #channelName {
     height: 100%;
     width: 100%;
@@ -80,6 +70,7 @@ body {
 }
 
 #channelName {
+    z-index: 1;
     justify-content: flex-start;
     background-color: var(--background);
 }
@@ -208,7 +199,31 @@ body {
     font-weight: 400;
 }
 
+#chat {
+    grid-area: 2 / 3 / 4 / 4;
+    background-color: var(--select);
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+#messages {
+    overflow-y: scroll;
+}
+
+#messages * {
+    overflow-anchor: none;
+}
+
+#messages #anchor {
+    overflow-anchor: auto;
+    height: 1px;
+}
+
 #chatbox {
+    flex-basis: 35px;
     align-self: center;
     width: 96%;
     height: 42px;
