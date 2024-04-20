@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: "M PLUS 1";
+        font-style: normal;
+        font-weight: 400;
+        src: url("./assets/MPLUS1.ttf");
+    }
+
+    @font-face {
+        font-family: "M PLUS 1r";
+        font-style: normal;
+        font-weight: 400;
+        src: url("./assets/MPLUS1r.ttf");
+    }
+
+    *::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background-color: #453C5A;
+        @apply rounded-md;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: #322C4C;
+        @apply rounded-md;
+    }
+
+    textarea::-webkit-scrollbar-track {
+        @apply bg-background;
+    }
+
+    textarea::-webkit-scrollbar-thumb {
+        width: 8px;
+    }
+
+    @supports not selector(::-webkit-scrollbar) {
+        * {
+            scrollbar-color: rgb(63, 54, 91) rgb(136 130 155);
+        }
+    }
+}
