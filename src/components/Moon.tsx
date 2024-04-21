@@ -6,7 +6,7 @@ import {z} from "zod";
  * @param size - The size of the moon icon. Defaults to 16.
  */
 function Moon({fill, size = 16}: {fill?: string, size?: number}) {
-    fill = z.string().min(4).max(7).regex(/^#/).parse(fill ?? "#3F365B");
+    fill = z.string().min(4).max(9).regex(/^#/).parse(fill ?? "#3F365B");
     size = z.number().int().positive().parse(size);
 
     return (

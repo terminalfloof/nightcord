@@ -11,7 +11,7 @@ import {
 
 function Menu() {
     return (
-        <div className="flex flex-col w-16 bg-sidebar items-center py-6 gap-4">
+        <div className="flex flex-shrink-0 flex-col basis-16 bg-sidebar items-center py-6 gap-4">
             <IconHome className={"stroke-white"} size={32} stroke={2}/>
             <IconSearch className={"stroke-white"} size={32} stroke={2}/>
             <IconSend className={"stroke-white"} size={32} stroke={2}/>

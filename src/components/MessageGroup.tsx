@@ -1,5 +1,5 @@
 import {z} from "zod";
-const fileLocator = z.union([
+export const fileLocator = z.union([
     // A relative path to a file.
     z.string().regex(/^[./]/),
     z.string().url()
@@ -20,7 +20,7 @@ function MessageGroup({image, name, time, messages}: MessageGroupProps) {
     image = fileLocator.parse(image);
     return (
         <div className={"flex gap-3 mb-3"}>
-            <img src={image} alt={"avatar"} className={"rounded-full size-12"} />
+            <img src={image} alt={"avatar"} className={"rounded-full select-none size-12"} />
             <div>
                 <div className="flex gap-1.5 items-baseline">
                     <span className={"text-white text-lg font-mplus1r font-medium"}>{name}</span>

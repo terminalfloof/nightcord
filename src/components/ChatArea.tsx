@@ -7,7 +7,7 @@ import Moon from "./Moon.tsx";
 export function Divider({date = "今日"}: {date?: string}) {
     return <div className={"my-6 relative"}>
         <hr className={"border-select m-0"}/>
-        <div className={"absolute -top-2 text-select text-sm font-mplus1r w-fit px-4 left-1/2 -translate-x-1/2 bg-background font-medium text-center"}>
+        <div className={"absolute -top-2 select-none text-select text-sm font-mplus1r w-fit px-4 left-1/2 -translate-x-1/2 bg-background font-medium text-center"}>
             {date}
         </div>
     </div>
