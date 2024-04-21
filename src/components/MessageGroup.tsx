@@ -32,8 +32,8 @@ function MessageGroup({image, name, time, messages}: MessageGroupProps) {
                     }</span>
                 </div>
                 <div className={"text-white font-mplus1r text-base"}>
-                    {messages.map(message => {
-                        return <p>{message}</p>
+                    {messages.map((message, index) => {
+                        return <p key={index}>{message}</p>
                     })}
                 </div>
             </div>

@@ -14,7 +14,7 @@ export default {
             "text": "#DDD6E5"
         },
         fontFamily: {
-            "mplus": ['"m-plus-1c"', "sans-serif"],
+            "mplus": ['"M PLUS 1"', "sans-serif"],
             "mplus1": ['"M PLUS 1"', "sans-serif"],
             "mplus1r": ['"M PLUS 1r"', "sans-serif"],
         }
