@@ -1,17 +1,19 @@
 {
 	"compilerOptions": {
 		"target": "es6",
-		"module": "commonjs",
+		"module": "CommonJS",
 		"moduleResolution": "node",
 		"noImplicitAny": false,
 		"removeComments": true,
+		"allowSyntheticDefaultImports": true,
 		"preserveConstEnums": true,
 		"sourceMap": true,
+		"composite": true,
 		"forceConsistentCasingInFileNames": true,
 		"outDir": "dist",
+		"rootDir": "./src",
 		"declaration": true
 	},
 	"include": ["src/**/*.ts"],
-	"exclude": ["src/**/*.spec.ts", "node_modules"],
-	"references": [{ "path": "../client" }]
+	"exclude": ["src/**/*.spec.ts", "node_modules"]
 }
