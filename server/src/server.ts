@@ -36,6 +36,8 @@ io.on("connection", async (socket) => {
 	socket.emit("init", messages);
 });
 
+app.use(express.static("../client/dist"));
+
 httpServer.listen(3000, () => {
 	console.log("Server is running on port 3000.");
 });
