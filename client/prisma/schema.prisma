@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -35,13 +35,7 @@ model Channel {
   name     String    @unique
   type     String
   messages Message[]
-  Server   Server?   @relation(fields: [serverId], references: [id])
-  serverId String?
+  // Server   Server?   @relation(fields: [serverId], references: [id])
+  // serverId String?
   users    User[]
-}
-
-model Server {
-  channels Channel[]
-  name     String    @unique
-  id       String    @id @default(uuid())
 }
