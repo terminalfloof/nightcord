@@ -16,16 +16,16 @@ export type MessageGroupProps = {
  * @param image - The image of the user.
  */
 function MessageGroup({ messages, author }: MessageGroupProps) {
-	let { image, username: name } = author;
+	const { username: name } = author;
 	const time = new Date(messages[0].createdAt);
 
-	image = fileLocator.parse(image);
+	const image = fileLocator.parse(author.image);
 	return (
 		<div className={"flex gap-3 mb-3"}>
 			<img
 				src={image}
 				alt={"avatar"}
-				className={"rounded-full select-none size-12"}
+				className={"rounded-full select-none size-12 object-cover"}
 			/>
 			<div>
 				<div className="flex gap-1.5 items-baseline">

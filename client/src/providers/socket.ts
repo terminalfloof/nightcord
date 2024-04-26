@@ -2,7 +2,8 @@ import { Socket, io } from "socket.io-client";
 import type { ServerToClientEvents, ClientToServerEvents } from "@server/types";
 
 // "undefined" means the URL will be computed from the `window.location` object
-const URL = import.meta.env.MODE === "development" ? "http://localhost:3000" : window.origin;
+const URL =
+	import.meta.env.MODE === "development" ? "localhost:3000" : window.origin;
 console.log(URL);
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> =

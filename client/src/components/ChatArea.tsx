@@ -2,7 +2,6 @@ import useMessages from "../hooks/useMessages.tsx";
 import ChatInput from "./ChatInput.tsx";
 import MessageGroup from "./MessageGroup.tsx";
 import Moon from "./Moon.tsx";
-
 export function Divider({ date = "今日" }: { date?: string }) {
 	return (
 		<div className={"my-6 relative"}>
@@ -17,6 +16,10 @@ export function Divider({ date = "今日" }: { date?: string }) {
 		</div>
 	);
 }
+
+type MessageGroupProps = typeof MessageGroup extends (props: infer P) => unknown
+	? P
+	: never;
 
 export default function ChatArea() {
 	const messages = useMessages();
@@ -39,14 +42,27 @@ export default function ChatArea() {
 				</h2>
 			</div>
 			{/* Messages */}
-			<div className={"flex-grow overflow-y-scroll mx-3 p-2"}>
-				{messages?.map((message, index) => (
-					<MessageGroup
-						author={message.author}
-						key={index}
-						messages={[message]}
-					/>
-				))}
+			<div className={"flex-grow overflow-y-scroll p-4"}>
+				{messages
+					?.map((msg) => {
+						return {
+							messages: [msg],
+							author: msg.author,
+						} as MessageGroupProps;
+					}) // Group messages by author
+					.reduce((acc, curr) => {
+						const lastMessage = acc[acc.length - 1];
+						if (lastMessage?.author.id === curr.author.id) {
+							lastMessage.messages.push(...curr.messages);
+						} else {
+							acc.push(curr);
+						}
+						return acc;
+					}, [] as MessageGroupProps[])
+					.map((message) => {
+						console.log(message);
+						return <MessageGroup {...message} />;
+					})}
 			</div>
 			{/* Input */}
 			<ChatInput />
