@@ -1,0 +1,16 @@
+{
+  "name": "nightcord",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bs": "npm run build && npm start",
+    "build": "npm run build --prefix ./client && npm run build --prefix ./server",
+    "start": "node server/dist/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": "20.x"
+  }
+}

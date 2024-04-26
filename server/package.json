@@ -4,9 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "npx tsc && node dist/server.js",
-		"build": "npm run build --prefix ../client && npx tsc -b",
-		"start": "tsc && node dist/server.js"
+		"build": "npx tsc -b",
+		"start": "node dist/server.js"
 	},
 	"author": "",
 	"license": "ISC",

@@ -7,6 +7,7 @@ import {
 	SocketData,
 } from "./types";
 import { db } from "./db";
+import * as path from "path";
 
 const app = express();
 const httpServer = createServer(app);
@@ -36,7 +37,7 @@ io.on("connection", async (socket) => {
 	socket.emit("init", messages);
 });
 
-app.use(express.static("../client/dist"));
+app.use(express.static(path.join(__dirname, "../../client/dist")));
 
 httpServer.listen(3000, () => {
 	console.log("Server is running on port 3000.");
