@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import useSocketConnected from "./useSocket";
+import useSocket from "./useSocket";
 import { Message, User } from "@server/types";
 import { socket } from "../providers/socket";
 
-type ExtendedMessage = Message & { author: User };
+type EnrichedMessage = Message & { author: User };
 
 export default function useMessages() {
-	const isConnected = useSocketConnected();
-	const [messages, setMessages] = useState<ExtendedMessage[] | undefined>();
+	const isConnected = useSocket();
+	const [messages, setMessages] = useState<EnrichedMessage[] | undefined>();
 
 	useEffect(() => {
 		if (isConnected) {

@@ -2,15 +2,23 @@ import Moon from "./components/Moon.tsx";
 import Menu from "./components/Menu.tsx";
 import Sidebar from "./components/Sidebar.tsx";
 import ChatArea from "./components/ChatArea.tsx";
-import useSocketConnected from "./hooks/useSocket.tsx";
+import useSocket from "./hooks/useSocket.tsx";
 import useMessages from "./hooks/useMessages.tsx";
+import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
+import useUserMap from "./hooks/userUserMap.tsx";
 
 function App() {
-	const isConnected = useSocketConnected();
+	const { isConnected, id } = useSocket();
 	const messages = useMessages();
+	const userMap = useUserMap(id);
 
 	return (
-		<>
+		<Theme
+			accentColor="iris"
+			appearance="dark"
+			panelBackground="translucent"
+		>
 			{/* Top Banner */}
 			<div
 				className={
@@ -39,7 +47,7 @@ function App() {
 				<Sidebar />
 				<ChatArea />
 			</div>
-		</>
+		</Theme>
 	);
 }
 

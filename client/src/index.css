@@ -3,53 +3,53 @@
 @tailwind utilities;
 
 @layer base {
-    @font-face {
-        font-family: "M PLUS 1r";
-        font-style: normal;
-        font-weight: 400;
-        src: url("./assets/MPLUS1r.ttf");
-    }
+	@font-face {
+		font-family: "M PLUS 1r";
+		font-style: normal;
+		font-weight: 400;
+		src: url("./assets/MPLUS1r.ttf");
+	}
 
-    @font-face {
-        font-family: "M PLUS 1";
-        font-style: normal;
-        font-weight: 400;
-        src: url("./assets/MPLUS1.ttf");
-    }
+	@font-face {
+		font-family: "M PLUS 1";
+		font-style: normal;
+		font-weight: 400;
+		src: url("./assets/MPLUS1.ttf");
+	}
 
-    @font-face {
-        font-family: "M PLUS 1";
-        font-style: normal;
-        font-weight: 900;
-        src: url("./assets/MPLUS1-Black.ttf");
-    }
+	@font-face {
+		font-family: "M PLUS 1";
+		font-style: normal;
+		font-weight: 900;
+		src: url("./assets/MPLUS1-Black.ttf");
+	}
 
-    *::-webkit-scrollbar {
-        width: 8px;
-    }
+	*::-webkit-scrollbar {
+		width: 8px;
+	}
 
-    *::-webkit-scrollbar-track {
-        background-color: #453C5A;
-        border-radius: 10px;
-        margin: 8px 0;
-    }
+	*::-webkit-scrollbar-track {
+		background-color: #453c5a;
+		border-radius: 10px;
+		margin: 8px 0;
+	}
 
-    *::-webkit-scrollbar-thumb {
-        background-color: #322C4C;
-        @apply rounded-md;
-    }
+	*::-webkit-scrollbar-thumb {
+		background-color: #322c4c;
+		@apply rounded-md;
+	}
 
-    textarea::-webkit-scrollbar {
-        width: 6px;
-    }
+	textarea::-webkit-scrollbar {
+		width: 6px;
+	}
 
-    textarea::-webkit-scrollbar-track {
-        @apply bg-background;
-    }
+	textarea::-webkit-scrollbar-track {
+		@apply bg-background;
+	}
 
-    @supports not selector(::-webkit-scrollbar) {
-        * {
-            scrollbar-color: rgb(63, 54, 91) rgb(136 130 155);
-        }
-    }
+	@supports not selector(::-webkit-scrollbar) {
+		* {
+			scrollbar-color: rgb(63, 54, 91) rgb(136 130 155);
+		}
+	}
 }
