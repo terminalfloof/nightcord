@@ -13,7 +13,6 @@ export default function useMessages() {
 		if (isConnected) {
 			socket.on("init", (messages) => {
 				setMessages(messages);
-				console.log(messages);
 			});
 		} else {
 			setMessages(undefined);

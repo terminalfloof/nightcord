@@ -60,7 +60,6 @@ export default function ChatArea() {
 						return acc;
 					}, [] as MessageGroupProps[])
 					.map((message, index) => {
-						console.log(message);
 						return <MessageGroup {...message} key={index} />;
 					})}
 			</div>

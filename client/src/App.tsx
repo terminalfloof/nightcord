@@ -9,9 +9,9 @@ import { Theme } from "@radix-ui/themes";
 import useUserMap from "./hooks/userUserMap.tsx";
 
 function App() {
-	const { isConnected, id } = useSocket();
+	const { isConnected } = useSocket();
 	const messages = useMessages();
-	const userMap = useUserMap(id);
+	const userMap = useUserMap();
 
 	return (
 		<Theme

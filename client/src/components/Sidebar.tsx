@@ -8,10 +8,9 @@ import {
 	IconVolume,
 } from "@tabler/icons-react";
 import Moon from "./Moon.tsx";
-import { cloneElement, ReactElement } from "react";
-import { fileLocator } from "./MessageGroup.tsx";
-import rui from "../assets/rui.png";
+import { cloneElement, ReactElement, useMemo } from "react";
 import UserComponent from "./User.tsx";
+import useUserMap from "../hooks/userUserMap.tsx";
 
 function Category({ icon, title }: { icon: ReactElement; title: string }) {
 	return (
@@ -47,10 +46,10 @@ function Channel({ name, active }: { name: string; active: boolean }) {
 	);
 }
 
-type User = { name: string; active: boolean; pfp: string };
+type SidebarUser = { name: string; active: boolean; pfp: string; id: string };
 
-function User({ name, active, pfp }: User) {
-	pfp = fileLocator.parse(pfp);
+function User({ name, active, pfp, id }: SidebarUser) {
+	pfp = pfp || `https://api.dicebear.com/9.x/icons/svg?scale=&seed=${id}`;
 
 	return (
 		<div
@@ -87,25 +86,18 @@ function User({ name, active, pfp }: User) {
 	);
 }
 
-const users: User[] = [
-	{
-		name: "floof",
-		active: true,
-		pfp: rui,
-	},
-	{
-		name: "loafed",
-		active: false,
-		pfp: rui,
-	},
-	{
-		name: "loofly",
-		active: false,
-		pfp: rui,
-	},
-];
-
 function Sidebar() {
+	const userMap = useUserMap();
+	const users: SidebarUser[] = useMemo(() => {
+		console.log(userMap);
+		return Array.from(userMap.values()).map((user) => ({
+			id: user.id,
+			name: user.username,
+			active: true,
+			pfp: user.image,
+		}));
+	}, [userMap]);
+
 	return (
 		<div className={"basis-80 shrink-0 bg-chat flex flex-col h-full"}>
 			{/* Channel Name */}

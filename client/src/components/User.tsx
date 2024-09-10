@@ -5,20 +5,28 @@ import {
 } from "@tabler/icons-react";
 import { Button, Flex, Popover, TextField } from "@radix-ui/themes";
 import { User } from "@server/types";
-import { FormEvent, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import useSocket from "../hooks/useSocket";
 import K from "../assets/K.png";
+import { socket } from "../providers/socket";
 
 export default function UserComponent() {
 	const { id } = useSocket();
+
 	const [user, setUser] = useState<User>({
 		id: "0",
 		username: "K",
 		image: "",
 	});
 
+	// track changes to user
+	useEffect(() => {
+		socket.emit("user", user);
+	}, [user]);
+
 	useEffect(() => {
 		setUser({ ...user, id: id || "" });
+		if (id) socket.emit("user", user);
 	}, [id]);
 
 	function onCapture(isOpen: boolean) {
@@ -75,16 +83,10 @@ export default function UserComponent() {
 						></TextField.Root>
 					</div>
 					<Popover.Close>
-						<Button size="1" onClick={onCapture}>
-							Submit
-						</Button>
+						<Button size="1">Submit</Button>
 					</Popover.Close>
 				</Flex>
 			</Popover.Content>
 		</Popover.Root>
 	);
-}
-
-function onCapture() {
-	console.log(input.currentTarget.value);
 }

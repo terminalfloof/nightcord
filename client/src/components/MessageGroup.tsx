@@ -1,10 +1,4 @@
 import { Message, User } from "@server/types";
-import { z } from "zod";
-export const fileLocator = z.union([
-	// A relative path to a file.
-	z.string().regex(/^[./]/),
-	z.string().url(),
-]);
 
 export type MessageGroupProps = {
 	messages: Message[];
@@ -19,7 +13,7 @@ function MessageGroup({ messages, author }: MessageGroupProps) {
 	const { username: name } = author;
 	const time = new Date(messages[0].createdAt);
 
-	const image = fileLocator.parse(author.image);
+	const image = author.image;
 	return (
 		<div className={"flex gap-3 mb-3"}>
 			<img

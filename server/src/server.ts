@@ -5,6 +5,7 @@ import {
 	ClientToServerEvents,
 	ServerToClientEvents,
 	SocketData,
+	User,
 } from "./types";
 import { db } from "./db";
 import * as path from "path";
@@ -23,10 +24,11 @@ const io = new Server<
 	},
 });
 
+const connectedUsers = new Map<string, User>();
+
 io.on("connection", async (socket) => {
-	// get the first 5 messages as a demo
 	const messages = await db.message.findMany({
-		take: 5,
+		take: 50,
 		orderBy: {
 			createdAt: "asc",
 		},
@@ -35,6 +37,45 @@ io.on("connection", async (socket) => {
 		},
 	});
 	socket.emit("init", messages);
+	connectedUsers.set(socket.id, {
+		id: socket.id,
+		username: "K",
+		image: "",
+	});
+	io.emit("updateUsers", Array.from(connectedUsers.entries()));
+
+	socket.on("user", async (user) => {
+		// does user exist?
+		// const existingUser = await db.user.findUnique({
+		// 	where: {
+		// 		id: user.id,
+		// 	},
+		// });
+
+		// if (existingUser) {
+		// 	// update user
+		// 	await db.user.update({
+		// 		where: {
+		// 			id: user.id,
+		// 		},
+		// 		data: user,
+		// 	});
+		// } else {
+		// 	// create user
+		// 	await db.user.create({
+		// 		data: user,
+		// 	});
+		// }
+
+		connectedUsers.set(socket.id, user);
+		io.emit("updateUsers", Array.from(connectedUsers.entries()));
+		console.log(Array.from(connectedUsers.entries()));
+	});
+
+	socket.on("disconnect", () => {
+		connectedUsers.delete(socket.id);
+		io.emit("updateUsers", Array.from(connectedUsers.entries()));
+	});
 });
 
 app.use(express.static(path.join(__dirname, "../../client/dist")));
