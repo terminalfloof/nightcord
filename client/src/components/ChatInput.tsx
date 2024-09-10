@@ -4,6 +4,7 @@ import {
 	IconMoodSmileFilled,
 } from "@tabler/icons-react";
 import { useRef } from "react";
+import { socket } from "../providers/socket";
 
 export default function ChatInput() {
 	const ref = useRef<HTMLTextAreaElement>(null);
@@ -16,9 +17,10 @@ export default function ChatInput() {
 		if (!ref.current) return;
 		const message = ref.current.value;
 		if (!message) return;
-		console.log(sanitizeInput(message));
 		ref.current.value = "";
 		ref.current.style.height = "auto";
+
+		socket.emit("message", sanitizeInput(message));
 	}
 
 	return (

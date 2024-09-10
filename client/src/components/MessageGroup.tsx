@@ -17,7 +17,10 @@ function MessageGroup({ messages, author }: MessageGroupProps) {
 	return (
 		<div className={"flex gap-3 mb-3"}>
 			<img
-				src={image}
+				src={
+					image ||
+					`https://api.dicebear.com/9.x/icons/svg?scale=&seed=${author.id}`
+				}
 				alt={"avatar"}
 				className={"rounded-full select-none size-12 object-cover"}
 			/>

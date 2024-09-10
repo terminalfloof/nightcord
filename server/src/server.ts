@@ -45,28 +45,6 @@ io.on("connection", async (socket) => {
 	io.emit("updateUsers", Array.from(connectedUsers.entries()));
 
 	socket.on("user", async (user) => {
-		// does user exist?
-		// const existingUser = await db.user.findUnique({
-		// 	where: {
-		// 		id: user.id,
-		// 	},
-		// });
-
-		// if (existingUser) {
-		// 	// update user
-		// 	await db.user.update({
-		// 		where: {
-		// 			id: user.id,
-		// 		},
-		// 		data: user,
-		// 	});
-		// } else {
-		// 	// create user
-		// 	await db.user.create({
-		// 		data: user,
-		// 	});
-		// }
-
 		connectedUsers.set(socket.id, user);
 		io.emit("updateUsers", Array.from(connectedUsers.entries()));
 		console.log(Array.from(connectedUsers.entries()));
@@ -75,6 +53,19 @@ io.on("connection", async (socket) => {
 	socket.on("disconnect", () => {
 		connectedUsers.delete(socket.id);
 		io.emit("updateUsers", Array.from(connectedUsers.entries()));
+	});
+
+	socket.on("message", (message) => {
+		const user = connectedUsers.get(socket.id);
+		if (!user) return;
+		io.emit("pushMessage", {
+			...user,
+			content: message,
+			createdAt: new Date(),
+			id: 0,
+			authorId: user.id,
+			author: user,
+		});
 	});
 });
 

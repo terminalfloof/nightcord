@@ -2,12 +2,14 @@ import { Message, User } from "@prisma/client";
 export * from "@prisma/client";
 
 export interface ServerToClientEvents {
-	init: (a: (Message & { author: User })[] | undefined) => void; // initialize messages
-	updateUsers: (a: [string, User][]) => void; // update users
+	init: (enrichedMessage: (Message & { author: User })[] | undefined) => void; // initialize messages
+	updateUsers: (users: [string, User][]) => void; // update users
+	pushMessage: (enrichedMessage: Message & { author: User }) => void; // push message
 }
 
 export interface ClientToServerEvents {
-	user: (a: User) => void; // user update
+	message: (message: string) => void;
+	user: (user: User) => void; // user update
 }
 
 export interface SocketData {}

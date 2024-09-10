@@ -14,12 +14,23 @@ export default function useMessages() {
 			socket.on("init", (messages) => {
 				setMessages(messages);
 			});
+			socket.on("pushMessage", (message) => {
+				setMessages((prevMessages) => {
+					if (prevMessages) {
+						return [...prevMessages, message];
+					} else {
+						return [message];
+					}
+				});
+			});
 		} else {
 			setMessages(undefined);
+			socket.off("pushMessage");
 		}
 
 		return () => {
 			socket.off("init");
+			socket.off("pushMessage");
 		};
 	}, [isConnected]);
 
