@@ -6,12 +6,10 @@ import useSocket from "./hooks/useSocket.tsx";
 import useMessages from "./hooks/useMessages.tsx";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
-import useUserMap from "./hooks/userUserMap.tsx";
 
 function App() {
 	const { isConnected } = useSocket();
 	const messages = useMessages();
-	const userMap = useUserMap();
 
 	return (
 		<Theme

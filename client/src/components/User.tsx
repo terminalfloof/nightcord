@@ -54,7 +54,9 @@ export default function UserComponent() {
 					}
 				>
 					<img
-						className={"size-10 bg-[#BB6588] rounded-full"}
+						className={
+							"size-10 bg-[#BB6588] rounded-full object-cover"
+						}
 						src={
 							user.image ||
 							(user.id

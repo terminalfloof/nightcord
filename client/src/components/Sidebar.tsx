@@ -62,7 +62,7 @@ function User({ name, active, pfp, id }: SidebarUser) {
 				<img
 					src={pfp}
 					alt={"avatar"}
-					className={"rounded-full size-8"}
+					className={"rounded-full size-8 object-cover"}
 				/>
 				{active && (
 					<div
