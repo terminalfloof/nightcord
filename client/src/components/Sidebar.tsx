@@ -6,17 +6,17 @@ import {
 	IconMicrophone,
 	IconTypography,
 	IconVolume,
-} from "@tabler/icons-react";
-import Moon from "./Moon.tsx";
-import { cloneElement, ReactElement, useMemo } from "react";
-import UserComponent from "./User.tsx";
-import useUserMap from "../hooks/userUserMap.tsx";
+} from '@tabler/icons-react';
+import Moon from './Moon.tsx';
+import { cloneElement, ReactElement, useMemo } from 'react';
+import UserComponent from './User.tsx';
+import useUserMap from '../hooks/userUserMap.tsx';
 
 function Category({ icon, title }: { icon: ReactElement; title: string }) {
 	return (
-		<div className={"flex items-center gap-3 p-3"}>
-			{cloneElement(icon, { size: 20, className: "stroke-white" })}
-			<h3 className={"text-white font-mplus tracking-tight"}>{title}</h3>
+		<div className={'flex items-center gap-3 p-3'}>
+			{cloneElement(icon, { size: 20, className: 'stroke-white' })}
+			<h3 className={'text-white font-mplus tracking-tight'}>{title}</h3>
 		</div>
 	);
 }
@@ -26,20 +26,20 @@ function Channel({ name, active }: { name: string; active: boolean }) {
 		<div
 			style={{
 				backgroundColor: active
-					? "rgba(136, 130, 155, 0.4)"
-					: "rgba(136, 130, 155, 0.1)",
+					? 'rgba(136, 130, 155, 0.4)'
+					: 'rgba(136, 130, 155, 0.1)',
 			}}
-			className={"mx-3 group p-2 rounded-lg flex gap-2.5"}
+			className={'mx-3 group p-2 rounded-lg flex gap-2.5'}
 		>
-			<Moon fill={active ? "#5C5475" : "#4B4265"} size={24} />
-			<span className={"text-white flex-grow font-mplus tracking-tight"}>
+			<Moon fill={active ? '#5C5475' : '#4B4265'} size={24} />
+			<span className={'text-white flex-grow font-mplus tracking-tight'}>
 				{name}
 			</span>
 			<IconCirclePlus
 				className={
-					"group-hover:opacity-100 transition-opacity opacity-0 fill-text"
+					'group-hover:opacity-100 transition-opacity opacity-0 fill-text'
 				}
-				color={active ? "#5C5475" : "#4B4265"}
+				color={active ? '#5C5475' : '#4B4265'}
 				size={24}
 			/>
 		</div>
@@ -54,32 +54,32 @@ function User({ name, active, pfp, id }: SidebarUser) {
 	return (
 		<div
 			className={
-				"flex items-center gap-2.5 mx-3" +
-				(!active ? " opacity-30" : "")
+				'flex items-center gap-2.5 mx-3' +
+				(!active ? ' opacity-30' : '')
 			}
 		>
 			<div className="relative select-none">
 				<img
 					src={pfp}
-					alt={"avatar"}
-					className={"rounded-full size-8 object-cover"}
+					alt={'avatar'}
+					className={'rounded-full size-8 object-cover'}
 				/>
 				{active && (
 					<div
 						className={
-							"absolute -bottom-1 -right-1 bg-green-400 rounded-full size-3.5 border-2 border-chat"
+							'absolute -bottom-1 -right-1 bg-green-400 rounded-full size-3.5 border-2 border-chat'
 						}
 					/>
 				)}
 			</div>
-			<span className={"text-white font-mplus font-medium"}>{name}</span>
+			<span className={'text-white font-mplus font-medium'}>{name}</span>
 			{active && (
 				<>
 					<IconCameraOff
 						size={16}
-						className={"stroke-text ml-auto"}
+						className={'stroke-text ml-auto'}
 					/>
-					<IconMicrophone size={16} className={"stroke-text"} />
+					<IconMicrophone size={16} className={'stroke-text'} />
 				</>
 			)}
 		</div>
@@ -99,37 +99,37 @@ function Sidebar() {
 	}, [userMap]);
 
 	return (
-		<div className={"basis-80 shrink-0 bg-chat flex flex-col h-full"}>
+		<div className={'basis-80 shrink-0 bg-chat flex flex-col h-full'}>
 			{/* Channel Name */}
 			<div
 				className={
-					"h-16 border-b-2 border-black flex justify-between items-center p-4"
+					'h-16 border-b-2 border-black flex justify-between items-center p-4'
 				}
 			>
 				<h2
 					className={
-						"font-mplus text-white text-xl font-medium tracking-tight"
+						'font-mplus text-white text-xl font-medium tracking-tight'
 					}
 				>
 					25 時、ナイトコードで。
 				</h2>
-				<IconChevronDown color={"white"} />
+				<IconChevronDown color={'white'} />
 			</div>
 			{/* Content */}
-			<Category icon={<IconTypography />} title={"テキストチャット"} />
-			<div className={"flex-col flex gap-2"}>
-				<Channel name={"作業"} active={true} />
+			<Category icon={<IconTypography />} title={'テキストチャット'} />
+			<div className={'flex-col flex gap-2'}>
+				<Channel name={'作業'} active={true} />
 			</div>
-			<Category icon={<IconVolume />} title={"ボイスチャット"} />
-			<div className={"flex-col flex gap-1"}>
+			<Category icon={<IconVolume />} title={'ボイスチャット'} />
+			<div className={'flex-col flex gap-1'}>
 				{users
 					.filter((user) => user.active)
 					.map((user, index) => (
 						<User {...user} key={index} />
 					))}
 			</div>
-			<Category icon={<IconBan />} title={"オフライン"} />
-			<div className={"flex-col flex gap-1"}>
+			<Category icon={<IconBan />} title={'オフライン'} />
+			<div className={'flex-col flex gap-1'}>
 				{users
 					.filter((user) => !user.active)
 					.map((user, index) => (
@@ -137,6 +137,16 @@ function Sidebar() {
 					))}
 			</div>
 			{/* Bottom Tab */}
+			<button
+				className="mt-auto text-center text-sm mx-3 my-2 p-2 font-bold bg-select rounded-md bg-opacity-25 hover:bg-opacity-35 transition-opacity duration-100"
+				onClick={() =>
+					alert(
+						'this is a crappily made fan project (please dont sue me D:)\nchat history is currently NOT preserved!1!!\nchange your user from the bottom left corner\nfind this git repo at https://github.com/terminalfloof/nightcord, feel free to yell at me in the issues tab!'
+					)
+				}
+			>
+				click me for more info!!
+			</button>
 			<UserComponent />
 		</div>
 	);

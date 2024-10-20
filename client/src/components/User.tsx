@@ -2,32 +2,32 @@ import {
 	IconCameraOff,
 	IconMicrophone,
 	IconCircleHalf,
-} from "@tabler/icons-react";
-import { Button, Flex, Popover, TextField } from "@radix-ui/themes";
-import { User } from "@server/types";
-import { useEffect, useState, useRef } from "react";
-import useSocket from "../hooks/useSocket";
-import K from "../assets/K.png";
-import { socket } from "../providers/socket";
+} from '@tabler/icons-react';
+import { Button, Flex, Popover, TextField } from '@radix-ui/themes';
+import { User } from '@server/types';
+import { useEffect, useState, useRef } from 'react';
+import useSocket from '../hooks/useSocket';
+import K from '../assets/K.png';
+import { socket } from '../providers/socket';
 
 export default function UserComponent() {
 	const { id } = useSocket();
 
 	const [user, setUser] = useState<User>({
-		id: "0",
-		username: "K",
-		image: "",
+		id: '0',
+		username: 'K',
+		image: '',
 	});
 
 	// track changes to user
 	useEffect(() => {
-		socket.emit("user", user);
+		socket.emit('user', user);
 	}, [user]);
 
 	useEffect(() => {
-		setUser({ ...user, id: id || "" });
-		if (id) socket.emit("user", user);
-	}, [id]);
+		setUser({ ...user, id: id || '' });
+		if (id) socket.emit('user', user);
+	}, [id, user]);
 
 	function onCapture(isOpen: boolean) {
 		if (isOpen) return;
@@ -50,12 +50,12 @@ export default function UserComponent() {
 			<Popover.Trigger>
 				<div
 					className={
-						"h-16 mt-auto gap-3 items-center px-4 bg-background flex border-t-2 border-black transition-opacity duration-100 ease-out hover:opacity-50"
+						'h-16 gap-3 items-center px-4 bg-background flex border-t-2 border-black transition-opacity duration-100 ease-out hover:opacity-50'
 					}
 				>
 					<img
 						className={
-							"size-10 bg-[#BB6588] rounded-full object-cover"
+							'size-10 bg-[#BB6588] rounded-full object-cover'
 						}
 						src={
 							user.image ||
@@ -64,12 +64,12 @@ export default function UserComponent() {
 								: K)
 						}
 					/>
-					<span className={"text-text font-bold"}>
+					<span className={'text-text font-bold'}>
 						{user.username}
 					</span>
-					<IconCameraOff className={"stroke-text ml-auto"} />
-					<IconMicrophone className={"stroke-text"} />
-					<IconCircleHalf className={"stroke-text"} />
+					<IconCameraOff className={'stroke-text ml-auto'} />
+					<IconMicrophone className={'stroke-text'} />
+					<IconCircleHalf className={'stroke-text'} />
 				</div>
 			</Popover.Trigger>
 			<Popover.Content>
