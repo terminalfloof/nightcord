@@ -25,9 +25,18 @@ export default function UserComponent() {
 	}, [user]);
 
 	useEffect(() => {
-		setUser({ ...user, id: id || '' });
-		if (id) socket.emit('user', user);
-	}, [id, user]);
+		if (id) {
+			setUser((prevUser) => {
+				const updatedUser = { ...prevUser, id };
+				socket.emit('user', updatedUser);
+				return updatedUser;
+			});
+		}
+	}, [id]);
+
+	useEffect(() => {
+		socket.emit('user', user);
+	}, [user]);
 
 	function onCapture(isOpen: boolean) {
 		if (isOpen) return;
