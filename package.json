@@ -1,15 +1,15 @@
 {
-  "name": "nightcord",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "postinstall": "npm install --prefix ./client && npm install --prefix ./server",
-    "heroku-postbuild": "npm run build --prefix ./client && npm run build --prefix ./server"
-  },
-  "author": "",
-  "license": "ISC",
-  "engines": {
-    "node": "20.x"
-  }
+	"name": "nightcord",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"postinstall": "npm install --prefix ./server && npm install --prefix ./client",
+		"heroku-postbuild": "npm run build --prefix ./server && npm run build --prefix ./client"
+	},
+	"author": "",
+	"license": "ISC",
+	"engines": {
+		"node": "20.x"
+	}
 }

@@ -36,7 +36,7 @@ io.on('connection', async (socket) => {
 	// 		author: true,
 	// 	},
 	// });
-	socket.emit('init', []);
+	socket.emit('init', undefined);
 	connectedUsers.set(socket.id, {
 		id: socket.id,
 		username: 'K',

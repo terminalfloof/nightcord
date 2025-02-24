@@ -21,7 +21,7 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
 		"paths": {
-			"@server/*": ["../server/src/*"]
+			"@server/*": ["../server/dist/*"]
 		}
 	},
 	"include": ["src"],
