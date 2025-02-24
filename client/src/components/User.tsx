@@ -26,7 +26,7 @@ export default function UserComponent() {
 
 	useEffect(() => {
 		if (id) {
-			setUser((prevUser) => {
+			setUser((prevUser: User) => {
 				const updatedUser = { ...prevUser, id };
 				socket.emit('user', updatedUser);
 				return updatedUser;
