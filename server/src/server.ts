@@ -1,78 +1,90 @@
-import * as express from 'express';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
-import {
-	ClientToServerEvents,
-	ServerToClientEvents,
-	SocketData,
-	User,
-} from './types';
-import { db } from './db';
-import * as path from 'path';
+import { initTRPC } from "@trpc/server";
+import { z } from "zod";
+import * as trpcExpress from "@trpc/server/adapters/express";
+import * as express from "express";
+import * as cors from "cors";
+import { db } from "./db";
+
+import { applyWSSHandler } from '@trpc/server/adapters/ws';
+import { WebSocketServer } from 'ws';
+
+const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({});
+type Context = Awaited<ReturnType<typeof createContext>>;
+const t = initTRPC.context<Context>().create();
+
+const userRouter = t.router({
+	get: t.procedure.input(z.string()).query(async (opts) => {
+		const result = await db.user.findUnique({
+			where: {
+				id: opts.input
+			}
+		});
+		return result;
+	}),
+	getAll: t.procedure.query(async () => {
+		const result = await db.user.findMany()
+		return result;
+	}),
+})
+
+const messageRouter = t.router({
+	getFromId: t.procedure.input(z.number()).query(async (opts) => {
+		console.log(opts.input);
+		const result = await db.message.findUnique({
+			where: { id: opts.input }
+		})
+		return result;
+	}),
+	getAll: t.procedure.query(async () => {
+		const messages = await db.message.findMany();
+		return messages;
+	})
+})
+
+const appRouter = t.router({
+	user: userRouter,
+	message: messageRouter
+})
+
+export type AppRouter = typeof appRouter;
 
 const app = express();
-const httpServer = createServer(app);
-const io = new Server<
-	ClientToServerEvents,
-	ServerToClientEvents,
-	any,
-	SocketData
->(httpServer, {
-	cors: {
-		origin: '*',
-		methods: ['GET', 'POST'],
-	},
-});
 
-const connectedUsers = new Map<string, User>();
+app.use(cors());
 
-io.on('connection', async (socket) => {
-	// const messages = await db.message.findMany({
-	// 	take: 50,
-	// 	orderBy: {
-	// 		createdAt: "asc",
-	// 	},
-	// 	include: {
-	// 		author: true,
-	// 	},
-	// });
-	socket.emit('init', undefined);
-	connectedUsers.set(socket.id, {
-		id: socket.id,
-		username: 'K',
-		image: '',
-	});
-	io.emit('updateUsers', Array.from(connectedUsers.entries()));
+app.use('/trpc',
+	trpcExpress.createExpressMiddleware({
+		router: appRouter,
+		createContext
+	})
+)
 
-	socket.on('user', async (user) => {
-		connectedUsers.set(socket.id, user);
-		io.emit('updateUsers', Array.from(connectedUsers.entries()));
-		console.log(Array.from(connectedUsers.entries()));
-	});
+const server = app.listen(3000);
+server.on("listening", () => console.log("listening on 3000"))
 
-	socket.on('disconnect', () => {
-		connectedUsers.delete(socket.id);
-		io.emit('updateUsers', Array.from(connectedUsers.entries()));
-	});
+const wss = new WebSocketServer({
+	server
+})
 
-	socket.on('message', (message) => {
-		const user = connectedUsers.get(socket.id);
-		if (!user) return;
-		io.emit('pushMessage', {
-			...user,
-			content: message,
-			createdAt: new Date(),
-			id: 0,
-			authorId: user.id,
-			author: user,
-		});
+const handler = applyWSSHandler({
+	wss,
+	router: appRouter,
+	keepAlive: {
+		enabled: true,
+		pingMs: 30000,
+		pongWaitMs: 5000
+	}
+})
+
+wss.on('connection', (ws) => {
+	console.log(`++ Connection (${wss.clients.size})`);
+	ws.once('close', () => {
+		console.log(`-- Connection (${wss.clients.size})`);
 	});
 });
 
-app.use(express.static(path.join(__dirname, '../../client/dist')));
-
-const PORT = process.env.PORT || 3000;
-
-httpServer.listen(PORT, () => {
-	console.log(`Server is running on port ${PORT}.`);
+process.on('SIGTERM', () => {
+	console.log('SIGTERM');
+	handler.broadcastReconnectNotification();
+	wss.close();
 });

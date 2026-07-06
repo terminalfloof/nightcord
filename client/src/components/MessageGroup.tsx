@@ -1,16 +1,30 @@
-import { Message, User } from "@server/types";
+import { useQuery } from "@tanstack/react-query";
+import { Message, User } from "../utils/types";
+import { trpc } from "../utils/trpc";
+import { useEffect, useState } from "react";
 
 export type MessageGroupProps = {
 	messages: Message[];
-	author: User;
+	authorId: string;
 };
 
 /**
  * A group of messages.
  * @param image - The image of the user.
  */
-function MessageGroup({ messages, author }: MessageGroupProps) {
-	const { username: name } = author;
+function MessageGroup({ messages, authorId }: MessageGroupProps) {
+	const { data, isPending, isError } = useQuery(trpc.user.get.queryOptions(authorId));
+
+	const [author, setAuthor] = useState<User>()
+
+	useEffect(() => {
+		if (!isError && !isPending) setAuthor(data);
+	}, [isError, isPending])
+
+	// todo: fix this soon LMAO
+	if (!messages[0]) return;
+	if (!author) return;
+
 	const time = new Date(messages[0].createdAt);
 
 	const image = author.image;
@@ -19,7 +33,7 @@ function MessageGroup({ messages, author }: MessageGroupProps) {
 			<img
 				src={
 					image ||
-					`https://api.dicebear.com/9.x/icons/svg?scale=&seed=${author.id}`
+					`https://api.dicebear.com/10.x/icons/svg?scale=&seed=${author.id}`
 				}
 				alt={"avatar"}
 				className={"rounded-full select-none size-12 object-cover"}
@@ -31,7 +45,7 @@ function MessageGroup({ messages, author }: MessageGroupProps) {
 							"text-white text-lg font-mplus1r font-medium"
 						}
 					>
-						{name}
+						{author.username}
 					</span>
 					<span
 						className={
@@ -46,7 +60,7 @@ function MessageGroup({ messages, author }: MessageGroupProps) {
 				</div>
 				<div className={"text-white font-mplus1r text-base"}>
 					{messages.map((message, index) => {
-						return <p key={index}>{message.content}</p>;
+						if (message) return <p key={index}>{message.content}</p>;
 					})}
 				</div>
 			</div>

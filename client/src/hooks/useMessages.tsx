@@ -1,38 +1,47 @@
 import { useEffect, useState } from 'react';
-import useSocket from './useSocket';
-import { Message, User } from '@server/types';
-import { socket } from '../providers/socket';
-
-type EnrichedMessage = Message & { author: User };
+import { trpc } from '../utils/trpc';
+import { useQuery } from '@tanstack/react-query';
 
 export default function useMessages() {
-	const isConnected = useSocket();
-	const [messages, setMessages] = useState<EnrichedMessage[] | undefined>();
+	const { data, error, isPending, isError } = useQuery(trpc.message.getAll.queryOptions());
+
+	const [messages, setMessages] = useState<typeof data>();
 
 	useEffect(() => {
-		if (isConnected) {
-			socket.on('init', (messages: EnrichedMessage[] | undefined) => {
-				setMessages(messages);
-			});
-			socket.on('pushMessage', (message: EnrichedMessage) => {
-				setMessages((prevMessages) => {
-					if (prevMessages) {
-						return [...prevMessages, message];
-					} else {
-						return [message];
-					}
-				});
-			});
-		} else {
-			setMessages(undefined);
-			socket.off('pushMessage');
-		}
+		if (isPending) setMessages(undefined);
+		if (isError) throw new Error(error.message);
 
-		return () => {
-			socket.off('init');
-			socket.off('pushMessage');
-		};
-	}, [isConnected]);
+		setMessages(data);
+	}, [isPending, isError])
+
+	// const isConnected = useSocket();
+	// const [messages, setMessages] = useState<EnrichedMessage[] | undefined>();
+
+	// useEffect(() => {
+	// 	if (isConnected) {
+	// 		socket.on('init', (messages: EnrichedMessage[] | undefined) => {
+	// 			setMessages(messages);
+	// 			console.log("initialized");
+	// 		});
+	// 		socket.on('pushMessage', (message: EnrichedMessage) => {
+	// 			setMessages((prevMessages) => {
+	// 				if (prevMessages) {
+	// 					return [...prevMessages, message];
+	// 				} else {
+	// 					return [message];
+	// 				}
+	// 			});
+	// 		});
+	// 	} else {
+	// 		setMessages(undefined);
+	// 		socket.off('pushMessage');
+	// 	}
+
+	// 	return () => {
+	// 		socket.off('init');
+	// 		socket.off('pushMessage');
+	// 	};
+	// }, [isConnected]);
 
 	return messages;
 }

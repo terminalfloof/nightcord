@@ -1,12 +1,12 @@
-import { User } from '@server/types';
 import { createContext, useState } from 'react';
+import { User } from './types';
 
 export const UserContext = createContext<{
 	user: User | undefined;
 	setUser: (user: User | undefined) => void;
 }>({
 	user: undefined,
-	setUser: () => {},
+	setUser: () => { },
 });
 
 export default function UserContextProvider({

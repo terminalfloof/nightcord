@@ -10,7 +10,7 @@ import {
 import Moon from './Moon.tsx';
 import { cloneElement, ReactElement, useMemo } from 'react';
 import UserComponent from './User.tsx';
-import useUserMap from '../hooks/userUserMap.tsx';
+import useUserMap from '../hooks/useUserMap.tsx';
 
 function Category({ icon, title }: { icon: ReactElement; title: string }) {
 	return (
@@ -49,7 +49,7 @@ function Channel({ name, active }: { name: string; active: boolean }) {
 type SidebarUser = { name: string; active: boolean; pfp: string; id: string };
 
 function User({ name, active, pfp, id }: SidebarUser) {
-	pfp = pfp || `https://api.dicebear.com/9.x/icons/svg?scale=&seed=${id}`;
+	pfp = pfp || `https://api.dicebear.com/10.x/icons/svg?scale=&seed=${id}`;
 
 	return (
 		<div

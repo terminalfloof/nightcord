@@ -4,14 +4,16 @@ import {
 	IconCircleHalf,
 } from '@tabler/icons-react';
 import { Button, Flex, Popover, TextField } from '@radix-ui/themes';
-import { User } from '@server/types';
-import { useEffect, useState, useRef } from 'react';
-import useSocket from '../hooks/useSocket';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import K from '../assets/K.png';
-import { socket } from '../providers/socket';
+import { wsClient } from '../utils/trpc';
+import { User } from '../utils/types';
 
 export default function UserComponent() {
-	const { id } = useSocket();
+	const id = useMemo(() => {
+		if (!wsClient.connection) return null;
+		return wsClient.connection.id
+	}, [wsClient.connection]);
 
 	const [user, setUser] = useState<User>({
 		id: '0',
@@ -19,24 +21,24 @@ export default function UserComponent() {
 		image: '',
 	});
 
-	// track changes to user
-	useEffect(() => {
-		socket.emit('user', user);
-	}, [user]);
+	// // track changes to user
+	// useEffect(() => {
+	// 	socket.emit('user', user);
+	// }, [user]);
 
-	useEffect(() => {
-		if (id) {
-			setUser((prevUser: User) => {
-				const updatedUser = { ...prevUser, id };
-				socket.emit('user', updatedUser);
-				return updatedUser;
-			});
-		}
-	}, [id]);
+	// useEffect(() => {
+	// 	if (id) {
+	// 		setUser((prevUser: User) => {
+	// 			const updatedUser = { ...prevUser, id };
+	// 			socket.emit('user', updatedUser);
+	// 			return updatedUser;
+	// 		});
+	// 	}
+	// }, [id]);
 
-	useEffect(() => {
-		socket.emit('user', user);
-	}, [user]);
+	// useEffect(() => {
+	// 	socket.emit('user', user);
+	// }, [user]);
 
 	function onCapture(isOpen: boolean) {
 		if (isOpen) return;
@@ -44,15 +46,17 @@ export default function UserComponent() {
 		const username = usernameRef.current.value;
 		const avatar = avatarRef.current.value;
 		if (!username && !avatar) return;
-		setUser({
-			...user,
-			username: username || user.username,
-			image: avatar || user.image,
-		});
+		// setUser({
+		// 	...user,
+		// 	username: username || user.username,
+		// 	image: avatar || user.image,
+		// });
 	}
 
 	const usernameRef = useRef<HTMLInputElement>(null);
 	const avatarRef = useRef<HTMLInputElement>(null);
+
+	if (!user) return <></>
 
 	return (
 		<Popover.Root onOpenChange={onCapture}>
@@ -69,7 +73,7 @@ export default function UserComponent() {
 						src={
 							user.image ||
 							(user.id
-								? `https://api.dicebear.com/9.x/icons/svg?scale=&seed=${user.id}`
+								? `https://api.dicebear.com/10.x/icons/svg?scale=&seed=${user.id}`
 								: K)
 						}
 					/>
